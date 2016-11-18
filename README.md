@@ -1,4 +1,4 @@
 # BattleTank
 ****
 
-Udemy course craeting game battle tank.
+Udemy course creating game battle tank.
