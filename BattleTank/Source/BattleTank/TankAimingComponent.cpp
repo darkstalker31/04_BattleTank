@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "TankAimingComponent.h"
 
 
@@ -40,12 +41,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		MoveBarrel(AimDirection);
 			// have barrel follow crosshair at a variable rate, which is slower than mouse speed
 	//	auto time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT(" Aim found"))
+	//	UE_LOG(LogTemp, Warning, TEXT(" Aim found"))
 	}
 	else
 	{
 	//	auto time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT(" No Aim solve found"))
+	//	UE_LOG(LogTemp, Warning, TEXT(" No Aim solve found"))
 	}
 		// if no solution found
 
@@ -53,7 +54,14 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
+	if (!BarrelToSet) { return; }
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	if (!TurretToSet) { return; }
+	Turret = TurretToSet;
 }
 
 void UTankAimingComponent::MoveBarrel(FVector AimDirection)
@@ -65,5 +73,7 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 
 //	UE_LOG(LogTemp, Warning, TEXT(" AimAsRotator %s"), *AimAsRotator.ToString())
 
-		Barrel->Elevate(5);
+		Barrel->Elevate(DeltaRotator.Pitch);
+		Turret->Rotate(DeltaRotator.Yaw);
+
 }
