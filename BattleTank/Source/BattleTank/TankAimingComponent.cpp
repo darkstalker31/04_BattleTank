@@ -27,15 +27,25 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		StartLocation,
 		HitLocation,
 		LaunchSpeed,
+		false,
+		0,
+		0,
 		ESuggestProjVelocityTraceOption::DoNotTrace);
 
 	if (bHaveAimSolution)
 	{
 		// caluc correctly
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		//UE_LOG(LogTemp, Warning, TEXT(" Aiming at %s"), *AimDirection.ToString())
+	
 		MoveBarrel(AimDirection);
 			// have barrel follow crosshair at a variable rate, which is slower than mouse speed
+	//	auto time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT(" Aim found"))
+	}
+	else
+	{
+	//	auto time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT(" No Aim solve found"))
 	}
 		// if no solution found
 
@@ -53,7 +63,7 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotation;
 
-	UE_LOG(LogTemp, Warning, TEXT(" AimAsRotator %s"), *AimAsRotator.ToString())
+//	UE_LOG(LogTemp, Warning, TEXT(" AimAsRotator %s"), *AimAsRotator.ToString())
 
 		Barrel->Elevate(5);
 }
